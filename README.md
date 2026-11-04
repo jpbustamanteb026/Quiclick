@@ -40,3 +40,7 @@ Si deseas trabajar en el tema o realizar modificaciones de código localmente ut
    ```bash
    git clone [https://github.com/jpbustamanteb026/Quiclick.git](https://github.com/jpbustamanteb026/Quiclick.git)
    cd Quiclick
+
+2. **Iniciar servidor de desarrollo local:**
+   ```bash
+   shopify theme dev --store quiclick.myshopify.com
