@@ -1,0 +1,140 @@
+{{ 'component-video-hero.css' | asset_url | stylesheet_tag }}
+
+<div class="content-box group min-h-auto sm:min-h-md">
+
+  <div class="content-box__background-media">
+    {%- if section.settings.video_desktop != blank -%}
+      <video
+        class="video-desktop"
+        loop
+        muted
+        playsinline
+        webkit-playsinline
+        preload="none"
+        poster="{{ section.settings.poster_image | image_url: width: 1600 }}"
+        autoplay
+      >
+        <source src="{{ section.settings.video_desktop }}" type="video/mp4">
+      </video>
+    {%- endif -%}
+
+    {%- if section.settings.video_mobile != blank -%}
+      <video
+        class="video-mobile"
+        loop
+        muted
+        playsinline
+        webkit-playsinline
+        preload="none"
+        poster="{{ section.settings.poster_image | image_url: width: 1600 }}"
+        autoplay
+      >
+        <source src="{{ section.settings.video_mobile }}" type="video/mp4">
+      </video>
+    {%- endif -%}
+  </div>
+
+  <div class="placement-grid">
+    <div class="prose prose-justify-start place-self-start">
+
+      {%- if section.settings.heading != blank -%}
+        <p class="h2 sm:h2">{{ section.settings.heading }}</p>
+      {%- endif -%}
+
+      {%- if section.settings.text_mobile != blank -%}
+        <div class="max-w-sm mobile-block">
+          <p>{{ section.settings.text_mobile }}</p>
+        </div>
+      {%- endif -%}
+
+      {%- if section.settings.text_desktop != blank -%}
+        <div class="max-w-sm desktop-block">
+          <p>{{ section.settings.text_desktop }}</p>
+        </div>
+      {%- endif -%}
+
+      {%- if section.settings.button_label != blank and section.settings.button_link != blank -%}
+        <a
+          class="button"
+          style="--button-background: {{ section.settings.button_bg }}; --button-text-color: {{ section.settings.button_text_color }};"
+          href="{{ section.settings.button_link }}"
+        >
+          <button-content class="button__content">{{ section.settings.button_label }}</button-content>
+        </a>
+      {%- endif -%}
+
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Video Hero",
+  "tag": "section",
+  "class": "shopify-section--video",
+  "settings": [
+    {
+      "type": "url",
+      "id": "video_desktop",
+      "label": "URL video desktop (.mp4)",
+      "info": "Sube el video en Configuración > Archivos y pega el URL aquí"
+    },
+    {
+      "type": "url",
+      "id": "video_mobile",
+      "label": "URL video mobile (.mp4)"
+    },
+    {
+      "type": "image_picker",
+      "id": "poster_image",
+      "label": "Imagen poster (mientras carga el video)"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Título",
+      "default": "THE SCENT OF A FRESH START"
+    },
+    {
+      "type": "textarea",
+      "id": "text_mobile",
+      "label": "Texto (mobile, más corto)",
+      "default": "A new warm blend of soft violet, cashmere musk, and creamy sandalwood."
+    },
+    {
+      "type": "textarea",
+      "id": "text_desktop",
+      "label": "Texto (desktop)",
+      "default": "A new warm blend of soft violet, cashmere musk, and creamy sandalwood, inspired by the beauty of new beginnings."
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Texto del botón",
+      "default": "Discover"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Link del botón"
+    },
+    {
+      "type": "color",
+      "id": "button_bg",
+      "label": "Color de fondo del botón",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "button_text_color",
+      "label": "Color de texto del botón",
+      "default": "#1e1e1e"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Video Hero"
+    }
+  ]
+}
+{% endschema %}

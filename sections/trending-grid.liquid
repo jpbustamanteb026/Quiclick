@@ -1,0 +1,270 @@
+{{ 'component-card.css' | asset_url | stylesheet_tag }}
+{{ 'component-price.css' | asset_url | stylesheet_tag }}
+
+{%- style -%}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+
+  /* Layout principal */
+  .trending-grid__container {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+
+  @media screen and (min-width: 990px) {
+    .trending-grid__container {
+      grid-template-columns: 1fr 1fr;
+      gap: 3.2rem;
+      align-items: stretch;
+    }
+  }
+
+  /* Contenedor del video */
+  .trending-grid__media-wrapper {
+    position: relative;
+    width: 100%;
+    border-radius: 40px;
+    overflow: hidden;
+    aspect-ratio: 720 / 1080;
+    background-color: rgba(var(--color-foreground), 0.04);
+    height: 100%;
+  }
+
+  .trending-grid__media-wrapper video,
+  .trending-grid__media-wrapper img,
+  .trending-grid__media-wrapper iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  /* Layout del Grid 2x2 */
+  .trending-grid__products {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+    gap: 1.6rem;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .trending-grid__products .grid__item {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  /* Reset para asegurar que la tarjeta de Dawn ocupe todo el alto */
+  .trending-grid__products .card-wrapper {
+    height: 100%;
+  }
+
+  .trending-grid__products .card {
+    height: 100%;
+  }
+{%- endstyle -%}
+
+<div class="color-{{ section.settings.color_scheme }} isolate gradient">
+  <div class="collection page-width section-{{ section.id }}-padding">
+    {%- if section.settings.title != blank -%}
+      <div class="collection__title title-wrapper title-wrapper--no-top-margin">
+        <h1 class="title inline-richtext {{ section.settings.heading_size }}">
+          {{ section.settings.title }}
+        </h1>
+      </div>
+    {%- endif -%}
+
+    <div class="trending-grid__container">
+      <!-- Columna Video (720x1080) -->
+      <div class="trending-grid__media-wrapper">
+        {%- if section.settings.video != blank -%}
+          {{
+            section.settings.video
+            | video_tag:
+              autoplay: true,
+              loop: true,
+              controls: false,
+              muted: true,
+              playsinline: true,
+              image_size: '720x'
+          }}
+        {%- elsif section.settings.video_url != blank -%}
+          {%- if section.settings.video_url.type == 'youtube' -%}
+            <iframe
+              src="https://www.youtube.com/embed/{{ section.settings.video_url.id }}?enablejsapi=1&autoplay=1&mute=1&loop=1&playlist={{ section.settings.video_url.id }}"
+              class="js-youtube"
+              allow="autoplay; encrypted-media"
+              title="Trending video"
+            ></iframe>
+          {%- elsif section.settings.video_url.type == 'vimeo' -%}
+            <iframe
+              src="https://player.vimeo.com/video/{{ section.settings.video_url.id }}?autoplay=1&muted=1&loop=1"
+              class="js-vimeo"
+              allow="autoplay; encrypted-media"
+              title="Trending video"
+            ></iframe>
+          {%- endif -%}
+        {%- elsif section.settings.cover_image != blank -%}
+          {{
+            section.settings.cover_image
+            | image_url: width: 1080
+            | image_tag: loading: 'lazy'
+          }}
+        {%- else -%}
+          {{ 'hero-apparel-1' | placeholder_svg_tag: 'placeholder-svg' }}
+        {%- endif -%}
+      </div>
+
+      <!-- Columna Grid 2x2 Productos -->
+      <ul class="trending-grid__products" role="list">
+        {%- if section.settings.collection.products.size > 0 -%}
+          {%- for product in section.settings.collection.products limit: 4 -%}
+            <li class="grid__item">
+              {% render 'card-product',
+                card_product: product,
+                media_aspect_ratio: 'square',
+                show_secondary_image: section.settings.show_secondary_image,
+                show_vendor: section.settings.show_vendor,
+                show_rating: section.settings.show_rating,
+                section_id: section.id,
+                quick_add: 'none'
+              %}
+            </li>
+          {%- endfor -%}
+        {%- else -%}
+          {%- for i in (1..4) -%}
+            <li class="grid__item">
+              {%- assign placeholder_image = 'product-apparel-' | append: forloop.index -%}
+              {% render 'card-product',
+                media_aspect_ratio: 'square',
+                placeholder_image: placeholder_image
+              %}
+            </li>
+          {%- endfor -%}
+        {%- endif -%}
+      </ul>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Trending Grid",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "inline_richtext",
+      "id": "title",
+      "default": "Trending Now",
+      "label": "Título"
+    },
+    {
+      "type": "select",
+      "id": "heading_size",
+      "options": [
+        { "value": "h2", "label": "Pequeño" },
+        { "value": "h1", "label": "Mediano" },
+        { "value": "h0", "label": "Grande" }
+      ],
+      "default": "h1",
+      "label": "Tamaño del título"
+    },
+    {
+      "type": "header",
+      "content": "Video (720x1080)"
+    },
+    {
+      "type": "video",
+      "id": "video",
+      "label": "Video nativo (Shopify Files)"
+    },
+    {
+      "type": "video_url",
+      "id": "video_url",
+      "accept": ["youtube", "vimeo"],
+      "label": "URL de Video (YouTube/Vimeo)"
+    },
+    {
+      "type": "image_picker",
+      "id": "cover_image",
+      "label": "Imagen de portada (Fallback)"
+    },
+    {
+      "type": "header",
+      "content": "Colección de Productos"
+    },
+    {
+      "type": "collection",
+      "id": "collection",
+      "label": "Colección (Muestra 4 productos)"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_secondary_image",
+      "default": true,
+      "label": "Mostrar segunda imagen al pasar el cursor"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_vendor",
+      "default": false,
+      "label": "Mostrar vendedor/marca"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_rating",
+      "default": false,
+      "label": "Mostrar calificación"
+    },
+    {
+      "type": "header",
+      "content": "Estilo"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Esquema de color",
+      "default": "scheme-1"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding superior",
+      "default": 36
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding inferior",
+      "default": 36
+    }
+  ],
+  "presets": [
+    {
+      "name": "Trending Grid"
+    }
+  ]
+}
+{% endschema %}

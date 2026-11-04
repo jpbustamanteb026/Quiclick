@@ -1,0 +1,158 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "image_banner_responsive_hRynLn": {
+      "type": "image-banner-responsive",
+      "name": "Banner Responsivo Doble Imagen",
+      "settings": {
+        "image": "shopify://shop_images/banner_3.webp",
+        "image_mobile": "shopify://shop_images/hero_banner_mobile.jpg",
+        "image_overlay_opacity": 0,
+        "image_height": "adapt",
+        "image_behavior": "none",
+        "desktop_content_position": "middle-center",
+        "desktop_content_alignment": "center",
+        "show_text_box": true,
+        "color_scheme": "",
+        "mobile_content_alignment": "center",
+        "show_text_below": true
+      }
+    },
+    "trending_grid_mfxMYR": {
+      "type": "trending-grid",
+      "custom_css": [
+        "h1 {text-align: center; font-weight: 500; color: #9c30f7;}"
+      ],
+      "name": "Trending Grid",
+      "settings": {
+        "title": "<strong>Productos de Cuidado Facial y Rutina Skincare en Colombia</strong>",
+        "heading_size": "h1",
+        "video": "shopify://files/videos/video chilena.mp4",
+        "video_url": "",
+        "collection": "trending",
+        "show_secondary_image": true,
+        "show_vendor": false,
+        "show_rating": false,
+        "color_scheme": "scheme-1",
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
+    },
+    "image_banner_responsive_ibJGM8": {
+      "type": "image-banner-responsive",
+      "blocks": {
+        "buttons_mkwBC7": {
+          "type": "buttons",
+          "settings": {
+            "button_label_1": "Comprar El Kit",
+            "button_link_1": "shopify://products/kit-medicube-pdrn-serum-crema-stick",
+            "button_style_secondary_1": false,
+            "button_label_2": "",
+            "button_link_2": "",
+            "button_style_secondary_2": false
+          }
+        }
+      },
+      "block_order": [
+        "buttons_mkwBC7"
+      ],
+      "custom_css": [
+        ".banner__box {background: transparent; padding-bottom: 0;}",
+        ".banner__content {padding-bottom: 4rem;}"
+      ],
+      "name": "Banner Responsivo Doble Imagen",
+      "settings": {
+        "image": "shopify://shop_images/180000.png",
+        "image_mobile": "shopify://shop_images/180_mobile.jpg",
+        "image_overlay_opacity": 0,
+        "image_height": "adapt",
+        "image_behavior": "none",
+        "desktop_content_position": "bottom-center",
+        "desktop_content_alignment": "center",
+        "show_text_box": true,
+        "color_scheme": "",
+        "mobile_content_alignment": "center",
+        "show_text_below": true
+      }
+    },
+    "featured_collection_AygRUV": {
+      "type": "featured-collection",
+      "custom_css": [
+        ".title {color: #9c30f7;}"
+      ],
+      "name": "t:sections.featured-collection.presets.name",
+      "settings": {
+        "collection": "medicube",
+        "products_to_show": 4,
+        "title": "<strong>Medicube</strong>",
+        "heading_size": "h1",
+        "description": "",
+        "show_description": false,
+        "description_style": "body",
+        "columns_desktop": 4,
+        "enable_desktop_slider": true,
+        "full_width": true,
+        "show_view_all": true,
+        "view_all_style": "solid",
+        "color_scheme": "scheme-1",
+        "image_ratio": "adapt",
+        "image_shape": "default",
+        "show_secondary_image": true,
+        "show_vendor": false,
+        "show_rating": false,
+        "quick_add": "none",
+        "columns_mobile": "2",
+        "swipe_on_mobile": true,
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
+    },
+    "featured_collection_kbNTcy": {
+      "type": "featured-collection",
+      "custom_css": [
+        ".title {color: #9c30f7;}"
+      ],
+      "name": "t:sections.featured-collection.presets.name",
+      "settings": {
+        "collection": "frontpage",
+        "products_to_show": 4,
+        "title": "<strong>Centella</strong>",
+        "heading_size": "h1",
+        "description": "",
+        "show_description": false,
+        "description_style": "body",
+        "columns_desktop": 4,
+        "enable_desktop_slider": true,
+        "full_width": true,
+        "show_view_all": true,
+        "view_all_style": "solid",
+        "color_scheme": "scheme-1",
+        "image_ratio": "adapt",
+        "image_shape": "default",
+        "show_secondary_image": true,
+        "show_vendor": false,
+        "show_rating": false,
+        "quick_add": "none",
+        "columns_mobile": "2",
+        "swipe_on_mobile": true,
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
+    }
+  },
+  "order": [
+    "image_banner_responsive_hRynLn",
+    "trending_grid_mfxMYR",
+    "image_banner_responsive_ibJGM8",
+    "featured_collection_AygRUV",
+    "featured_collection_kbNTcy"
+  ]
+}

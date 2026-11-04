@@ -1,0 +1,109 @@
+.content-box {
+  position: relative;
+  overflow: hidden;
+}
+
+.content-box__background-media {
+  position: relative;
+  z-index: 0;
+}
+
+.content-box__background-media img {
+  width: 100%;
+  height: 90dvh;
+  object-fit: cover;
+}
+
+.image-desktop {
+  display: none;
+}
+
+.image-mobile {
+  display: block;
+}
+
+@media (min-width: 640px) {
+  .image-desktop {
+    display: block;
+  }
+  .image-mobile {
+    display: none;
+  }
+}
+
+.placement-grid {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  width: 100%;
+  padding: 2rem;
+  display: flex;
+  align-items: center;
+  margin-left: 4rem;
+}
+
+@media (max-width: 640px) {
+  .placement-grid {
+    padding: 4rem;
+    margin-left: 0;
+  }
+}
+
+.prose {
+  color: #fffcf7;
+}
+
+.max-w-sm {
+  max-width: 50rem;
+}
+
+.mobile-block {
+  display: block;
+}
+
+.desktop-block {
+  display: none;
+  font-size: 1.8rem;
+}
+
+/* Cambiado de .shopify-section--video a .shopify-section--image-hero */
+.shopify-section--image-hero .prose .h2 {
+  color: #fffcf7;
+  font-size: 3rem;
+  margin: 0;
+  font-weight: 600;
+}
+
+@media (min-width: 640px) {
+  .mobile-block {
+    display: none;
+  }
+  .desktop-block {
+    display: block;
+  }
+}
+
+/* Cambiado de .shopify-section--video a .shopify-section--image-hero */
+.shopify-section--image-hero .button {
+  font-size: 1.8rem;
+  margin-top: 1rem;
+  padding: 0.75rem 1.75rem;
+  background-color: #54582f;
+  color: #fffcf7;
+  border-radius: calc(infinity * 1px);
+  text-decoration: none;
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease;
+  --border-offset: none;
+}
+
+.shopify-section--image-hero .button::after {
+  content: none;
+}
+
+.shopify-section--image-hero .button:hover {
+  background-color: transparent;
+  color: #fffcf7;
+  border: 1px solid #fffcf7;
+}

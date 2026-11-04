@@ -1,0 +1,250 @@
+{%- style -%}
+  .marquee-{{ section.id }} {
+    background-color: {{ section.settings.color_bg }};
+    color: {{ section.settings.color_text }};
+    padding: {{ section.settings.padding_vertical }}px 0;
+    overflow: hidden;
+    position: relative;
+    user-select: none;
+    width: 100%;
+  }
+
+  .marquee-{{ section.id }} .marquee__inner {
+    display: flex;
+    white-space: nowrap;
+    width: max-content;
+    opacity: 0;
+    transition: opacity 0.25s ease;
+  }
+
+  .marquee-{{ section.id }} .marquee__inner.is-ready {
+    opacity: 1;
+    animation: marquee-{{ section.id }} var(--marquee-duration, {{ section.settings.speed }}s) linear infinite;
+  }
+
+  .marquee-{{ section.id }} .marquee__content {
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+    gap: clamp(2rem, 4vw, 5rem);
+    padding-right: clamp(2rem, 4vw, 5rem);
+  }
+
+  .marquee-{{ section.id }} .marquee__item-wrapper {
+    display: inline-flex;
+    align-items: center;
+    gap: clamp(2rem, 4vw, 5rem);
+  }
+
+  .marquee-{{ section.id }} .marquee__item {
+    font-size: {{ section.settings.font_size }}px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    white-space: nowrap;
+  }
+
+  .marquee-{{ section.id }} .marquee__bullet {
+    opacity: 0.6;
+    font-size: 0.8em;
+    line-height: 1;
+  }
+
+  /* Se mueve exactamente el ancho de UN set de contenido (medido por JS),
+     no un -50% fijo. Así el loop es perfecto sin importar cuántos
+     mensajes tengas ni el ancho de la pantalla. */
+  @keyframes marquee-{{ section.id }} {
+    from { transform: translateX(0); }
+    to   { transform: translateX(calc(-1 * var(--marquee-content-width, 0px))); }
+  }
+
+  {% if section.settings.pause_on_hover %}
+    .marquee-{{ section.id }}:hover .marquee__inner {
+      animation-play-state: paused;
+    }
+  {% endif %}
+{%- endstyle -%}
+
+<div
+  class="marquee-{{ section.id }} marquee"
+  role="region"
+  aria-label="Anuncios flotantes"
+  data-marquee
+  data-speed="{{ section.settings.speed }}"
+>
+  <div class="marquee__inner" data-marquee-track>
+    <div class="marquee__content" data-marquee-base>
+      {%- for block in section.blocks -%}
+        {%- if block.settings.text != blank -%}
+          <div class="marquee__item-wrapper">
+            <span class="marquee__item">{{ block.settings.text }}</span>
+            <span class="marquee__bullet" aria-hidden="true">●</span>
+          </div>
+        {%- endif -%}
+      {%- endfor -%}
+    </div>
+  </div>
+</div>
+
+<script>
+  (function () {
+    function initMarquee(root) {
+      const track = root.querySelector('[data-marquee-track]');
+      const base = root.querySelector('[data-marquee-base]');
+      if (!track || !base) return;
+
+      // Segundos que tarda en recorrer UN set completo de contenido
+      const speed = parseFloat(root.dataset.speed) || 20;
+
+      function build() {
+        // Quita clones previos, deja solo el set base
+        track.querySelectorAll('.marquee__content:not([data-marquee-base])').forEach(function (el) {
+          el.remove();
+        });
+
+        const containerWidth = root.offsetWidth;
+        const contentWidth = base.getBoundingClientRect().width;
+
+        if (!contentWidth || !containerWidth) {
+          // El layout/fuentes aún no están listos para medir bien
+          requestAnimationFrame(build);
+          return;
+        }
+
+        // Clona el set las veces necesarias para cubrir de sobra el ancho visible
+        let totalWidth = contentWidth;
+        let safety = 0;
+        while (totalWidth < containerWidth * 2 && safety < 50) {
+          const clone = base.cloneNode(true);
+          clone.removeAttribute('data-marquee-base');
+          clone.setAttribute('aria-hidden', 'true');
+          track.appendChild(clone);
+          totalWidth += contentWidth;
+          safety++;
+        }
+
+        root.style.setProperty('--marquee-content-width', contentWidth + 'px');
+        root.style.setProperty('--marquee-duration', speed + 's');
+        track.classList.add('is-ready');
+      }
+
+      if (document.fonts && document.fonts.ready) {
+        document.fonts.ready.then(build);
+      } else {
+        build();
+      }
+      window.addEventListener('load', build);
+
+      let resizeTimeout;
+      window.addEventListener('resize', function () {
+        clearTimeout(resizeTimeout);
+        resizeTimeout = setTimeout(build, 200);
+      });
+    }
+
+    function initAll() {
+      document.querySelectorAll('[data-marquee]').forEach(initMarquee);
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initAll);
+    } else {
+      initAll();
+    }
+
+    // Soporte para el editor de temas (al agregar/editar/reordenar bloques)
+    document.addEventListener('shopify:section:load', function (event) {
+      const el = event.target.querySelector('[data-marquee]');
+      if (el) initMarquee(el);
+    });
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Carrusel Texto Infinito",
+  "settings": [
+    {
+      "type": "color",
+      "id": "color_bg",
+      "label": "Color de fondo",
+      "default": "#06020a"
+    },
+    {
+      "type": "color",
+      "id": "color_text",
+      "label": "Color de texto",
+      "default": "#ffffff"
+    },
+    {
+      "type": "range",
+      "id": "font_size",
+      "min": 12,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "label": "Tamaño de fuente",
+      "default": 14
+    },
+    {
+      "type": "range",
+      "id": "speed",
+      "min": 5,
+      "max": 60,
+      "step": 1,
+      "unit": "s",
+      "label": "Velocidad (segundos por ciclo)",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "padding_vertical",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "label": "Relleno vertical",
+      "default": 10
+    },
+    {
+      "type": "checkbox",
+      "id": "pause_on_hover",
+      "label": "Pausar al pasar el mouse",
+      "default": true
+    }
+  ],
+  "blocks": [
+    {
+      "type": "text_block",
+      "name": "Mensaje",
+      "settings": [
+        {
+          "type": "text",
+          "id": "text",
+          "label": "Texto del mensaje",
+          "default": "Envío gratis a todo el país"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Carrusel de Texto Infinito",
+      "blocks": [
+        {
+          "type": "text_block",
+          "settings": { "text": "🔥 Ofertas exclusivas por tiempo limitado" }
+        },
+        {
+          "type": "text_block",
+          "settings": { "text": "Pago Contra Entrega disponible" }
+        },
+        {
+          "type": "text_block",
+          "settings": { "text": "Garantía de satisfacción de 30 días" }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

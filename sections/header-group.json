@@ -1,0 +1,91 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "name": "t:sections.header.name",
+  "type": "header",
+  "sections": {
+    "marquee_text_f4Na9f": {
+      "type": "marquee-text",
+      "blocks": {
+        "text_block_7c4NFb": {
+          "type": "text_block",
+          "settings": {
+            "text": "Calidad Triple AAA"
+          }
+        },
+        "text_block_Mgrt89": {
+          "type": "text_block",
+          "settings": {
+            "text": "Hidratación profunda y efecto Glass Skin"
+          }
+        },
+        "text_block_QxyJPL": {
+          "type": "text_block",
+          "settings": {
+            "text": "Calidad Premium Garantizada"
+          }
+        },
+        "text_block_a8Jtpk": {
+          "type": "text_block",
+          "settings": {
+            "text": "Pago Contra Entrega"
+          }
+        },
+        "text_block_N3tQxM": {
+          "type": "text_block",
+          "settings": {
+            "text": "Acabado Profesional y Texturas Ligeras a Precio Especial"
+          }
+        }
+      },
+      "block_order": [
+        "text_block_7c4NFb",
+        "text_block_Mgrt89",
+        "text_block_QxyJPL",
+        "text_block_a8Jtpk",
+        "text_block_N3tQxM"
+      ],
+      "name": "Carrusel de Texto Infinito",
+      "settings": {
+        "color_bg": "#9c30f7",
+        "color_text": "#fff9f0",
+        "font_size": 14,
+        "speed": 25,
+        "padding_vertical": 8,
+        "pause_on_hover": false
+      }
+    },
+    "header": {
+      "type": "header",
+      "custom_css": [
+        "a {font-weight: bold;}"
+      ],
+      "settings": {
+        "logo_position": "middle-left",
+        "mobile_logo_position": "center",
+        "menu": "main-menu",
+        "menu_type_desktop": "dropdown",
+        "sticky_header_type": "always",
+        "show_line_separator": false,
+        "color_scheme": "scheme-2",
+        "menu_color_scheme": "scheme-5",
+        "enable_country_selector": false,
+        "enable_language_selector": false,
+        "margin_bottom": 0,
+        "padding_top": 0,
+        "padding_bottom": 0
+      }
+    }
+  },
+  "order": [
+    "marquee_text_f4Na9f",
+    "header"
+  ]
+}
